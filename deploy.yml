@@ -4,7 +4,7 @@
   become: yes
   tasks:
     - name: Install Flask and Gunicorn
-      apt:
+     apt:
         name:
           - python3-flask
           - gunicorn
@@ -12,14 +12,14 @@
         state: present
 
     - name: Create the application directory
-      file:
+     file:
         path: /opt/engineering
         state: directory
         group: developers
         mode: '0750'
 
     - name: Copy the application files
-      copy:
+     copy:
         src: "files/{{ item }}"
         dest: "/opt/engineering/{{ item }}"
         group: developers
@@ -30,14 +30,14 @@
       notify: Restart Greeting
 
     - name: Install the systemd unit file
-      copy:
+     copy:
         src: files/greeting.service
         dest: /etc/systemd/system/greeting.service
         mode: '0644'
       notify: Restart Greeting
 
     - name: Start and enable the Greeting service
-      systemd:
+     systemd:
         name: greeting.service
         daemon_reload: yes
         state: started
@@ -45,6 +45,6 @@
 
   handlers:
     - name: Restart Greeting
-      systemd:
+     systemd:
         name: greeting.service
         state: restarted
